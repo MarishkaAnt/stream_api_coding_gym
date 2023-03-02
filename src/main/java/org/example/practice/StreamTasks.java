@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class StreamTasks {
@@ -51,15 +50,13 @@ public class StreamTasks {
      */
     public static String findTheMostExpensiveProject(List<Project> projects) {
         return projects.stream()
-                .max(Comparator.comparing(p -> p.getTeams().stream()
+                .max(Comparator.comparing((Project p) -> p.getTeams().stream()
                                 .map(Team::getDevelopers)
                                 .flatMap(Collection::stream)
                                 .distinct()
                                 .mapToDouble(developer -> developer.getSalary().floatValue() * p.getDurationInMonth())
                                 .sum())
-                        //ToDo разобраться со строчкой ниже
-//                        .thenComparing(Comparator.comparing(Project::getId))
-
+                        .thenComparing(Project::getId)
                 ).map(Project::getProjectName).orElse(null);
     }
 
