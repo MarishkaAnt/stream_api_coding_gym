@@ -3,6 +3,7 @@
 
 -------------------
 
-[Теория и примеры применения стримов](src/main/java/org/example/Theory.java) <br>
-[Методы создания Стримов](src/main/java/org/example/StreamCreation.java) <br>
+[Теория и примеры применения стримов](src/main/java/org/example/theory/Theory.java) <br>
+[Методы создания Стримов](src/main/java/org/example/theory/StreamCreation.java) <br>
+[Задачи для практики](src/main/java/org/example/practice/StreamTasks.java) <br>
 
