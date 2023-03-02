@@ -1,4 +1,4 @@
-package org.example;
+package org.example.theory;
 
 import java.util.*;
 import java.util.stream.Collectors;
