@@ -106,7 +106,7 @@ public class Theory {
                 .peek(System.out::println)
                 .collect(Collectors.toList());
 
-        System.out.println("В итоге осталось: ");
+        System.out.println("After all operations: ");
         System.out.println(collect);
 
         Stream<String> stringStream2 = getStreamOfString();
