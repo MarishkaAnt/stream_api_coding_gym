@@ -3,11 +3,15 @@ package org.example.practice;
 import org.example.practice.domain.Developer;
 import org.example.practice.domain.Grades;
 import org.example.practice.domain.Project;
+import org.example.practice.domain.Team;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class StreamTasks {
 
@@ -21,7 +25,10 @@ public class StreamTasks {
      * @return - название проекта, удовлетворяющего условиям
      */
     public static String findProjectWithMaxTeamCount(List<Project> projects) {
-        return null;
+        return projects.stream()
+                .max(Comparator.comparingInt(p -> p.getTeams().size()))
+                .map(Project::getProjectName)
+                .orElse(null);
     }
 
     /**
@@ -43,7 +50,17 @@ public class StreamTasks {
      * @return - название проекта, удовлетворяющего условиям
      */
     public static String findTheMostExpensiveProject(List<Project> projects) {
-        return null;
+        return projects.stream()
+                .max(Comparator.comparing(p -> p.getTeams().stream()
+                                .map(Team::getDevelopers)
+                                .flatMap(Collection::stream)
+                                .distinct()
+                                .mapToDouble(developer -> developer.getSalary().floatValue() * p.getDurationInMonth())
+                                .sum())
+                        //ToDo разобраться со строчкой ниже
+//                        .thenComparing(Comparator.comparing(Project::getId))
+
+                ).map(Project::getProjectName).orElse(null);
     }
 
     /**
@@ -201,6 +218,13 @@ public class StreamTasks {
      * @return - мапу с названиями скиллов и полными именами (имя + фамилия) разработчиков в указанном виде
      */
     public static Map<String, List<String>> getDevelopersSortedByLastNameGroupingByGrade(List<Project> projects) {
+        return null;
+    }
+
+    /**
+     * Стрим интов (последовательный или рандомный) разложить на n листов по остатку деления на n
+     */
+    public static Map<Integer, List<Integer>> separateIntStreamByMod(IntStream intStream) {
         return null;
     }
 

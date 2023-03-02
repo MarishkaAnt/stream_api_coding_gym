@@ -26,6 +26,7 @@ public class Theory {
     }
 
     /**
+     *
      * (?) Какие терминальные операции вам уже знакомы и использовались вами в коде?
      */
     public static void terminalOperationExample() {
@@ -76,12 +77,14 @@ public class Theory {
         IntStream intStream5 = getStreamOfInts();
         OptionalInt reduce1 = intStream5.reduce((e1, e2) -> e1 * e2);
         IntStream intStream6 = getStreamOfInts();
-        int reduce2 = intStream6.reduce(3, (e1, e2) -> (e1 * e2));
+        int reduce2 = intStream6
+                .reduce(3, (e1, e2) -> (e1 * e2));
         System.out.println(reduce1 + ", " + reduce2);
 
     }
 
     /**
+     *
      * Промежуточные операции выполняются только при наличии терминальной.
      * (?) Какие промежуточные операции вам уже знакомы и использовались вами в коде?
      *
@@ -94,26 +97,31 @@ public class Theory {
         System.out.println("=====Intermediate=====");
 
         Stream<String> stringStream1 = getStreamOfString();
+/*
         List<String> collect = stringStream1
-                .peek(System.out::println)
-                .distinct()
-                .peek(System.out::println)
-                .map(String::toUpperCase)
-                .peek(System.out::println)
+                .peek(x5 -> System.out.println(x5 + " first peek"))
                 .skip(1)
-                .peek(System.out::println)
-                .filter(e -> e.startsWith("A"))
-                .peek(System.out::println)
+                .peek(x2 -> System.out.println(x2 + " skip"))
+                .filter(e -> e.startsWith("a"))
+                .peek(x1 -> System.out.println(x1 + " filter"))
+                .distinct()
+                .peek(x4 -> System.out.println(x4 + " distinct"))
+                .map(String::toUpperCase)
+                .peek(x3 -> System.out.println(x3 + " map"))
                 .collect(Collectors.toList());
 
         System.out.println("After all operations: ");
         System.out.println(collect);
+*/
 
         Stream<String> stringStream2 = getStreamOfString();
-        stringStream2
+        stringStream2.peek(x1 -> System.out.println(x1 + " first peek"))
                 .sorted(Comparator.reverseOrder())
+                .peek(x3 -> System.out.println(x3 + " sorted"))
+                .map(String::toUpperCase)
+                .peek(x2 -> System.out.println(x2 + " map"))
                 .flatMap(e -> Arrays.stream(e.split("")))
-                .forEachOrdered(x -> System.out.print(x + " "));
+                .forEachOrdered(x -> System.out.println(x + " "));
     }
 
     private static Stream<String> getStreamOfString() {
