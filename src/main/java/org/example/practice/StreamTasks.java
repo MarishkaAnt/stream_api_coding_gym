@@ -3,6 +3,7 @@ package org.example.practice;
 import org.example.practice.domain.Developer;
 import org.example.practice.domain.Grades;
 import org.example.practice.domain.Project;
+import org.example.practice.domain.Skills;
 import org.example.practice.domain.Team;
 
 import java.math.BigDecimal;
@@ -10,6 +11,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class StreamTasks {
@@ -51,11 +53,11 @@ public class StreamTasks {
     public static String findTheMostExpensiveProject(List<Project> projects) {
         return projects.stream()
                 .max(Comparator.comparing((Project p) -> p.getTeams().stream()
-                                .map(Team::getDevelopers)
-                                .flatMap(Collection::stream)
-                                .distinct()
-                                .mapToDouble(developer -> developer.getSalary().floatValue() * p.getDurationInMonth())
-                                .sum())
+                        .map(Team::getDevelopers)
+                        .flatMap(Collection::stream)
+                        .distinct()
+                        .mapToDouble(developer -> developer.getSalary().floatValue() * p.getDurationInMonth())
+                        .sum())
                         .thenComparing(Project::getId)
                 ).map(Project::getProjectName).orElse(null);
     }
@@ -113,7 +115,23 @@ public class StreamTasks {
      * @return - список разработчиков, удовлетворяющих условиям фильтра, в указанном виде
      */
     public static List<String> getAllJavaDevelopersSortedBySalary(List<Project> projects) {
-        return null;
+
+        return projects.stream()
+                .flatMap(project -> project.getTeams().stream())
+                .distinct()
+                .flatMap(team -> team.getDevelopers().stream())
+                .distinct()
+                .filter(developer -> developer.getSkills().contains(Skills.JAVA_8) ||
+                        developer.getSkills().contains(Skills.JAVA_11))
+                .sorted(Comparator.comparing(Developer::getSalary)
+                        .thenComparing(Developer::getFirstName))
+                .map(developer -> developer.getFirstName() +
+                        " " +
+                        developer.getLastName() +
+                        ": " +
+                        developer.getSalary()
+                )
+                .collect(Collectors.toList());
     }
 
     // Medium level tasks:

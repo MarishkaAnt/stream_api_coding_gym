@@ -1,5 +1,6 @@
 package org.example;
 
+import org.assertj.core.api.Assertions;
 import org.example.practice.StreamTasks;
 import org.example.practice.domain.Project;
 import org.example.practice.domain.TaskData;
@@ -55,6 +56,20 @@ class StreamTasksTest {
 
     @Test
     void getAllJavaDevelopersSortedBySalary() {
+        //given
+        List<String> expected = List.of(
+                "Jack Jackson: 1000", "John Johnson: 1000",
+                "Math Mathewson: 2000", "Tom Thompson: 2000",
+                "Garry Garrison: 3000", "Math Mathewson: 4000",
+                "Rajesh Koothrappli: 5000", "Sharchan Kumar: 6000",
+                "Raja Kachamali: 7000"
+        );
+        //when
+        List<String> actual = StreamTasks.getAllJavaDevelopersSortedBySalary(projects);
+        //then
+        Assertions.assertThat(actual)
+                .isEqualTo(expected)
+                .usingRecursiveComparison();
     }
 
     @Test
