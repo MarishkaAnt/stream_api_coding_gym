@@ -25,4 +25,8 @@ public class Developer {
     private Grades grade;
     private Set<Skills> skills;
     private BigDecimal salary;
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
 }
