@@ -1,12 +1,10 @@
 package org.example.practice;
 
-import org.example.practice.domain.Developer;
 import org.example.practice.domain.Grades;
 import org.example.practice.domain.Project;
-import org.example.practice.domain.Team;
+import org.example.practice.domain.Skills;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -50,14 +48,14 @@ public class StreamTasks {
      */
     public static String findTheMostExpensiveProject(List<Project> projects) {
         return projects.stream()
-                .max(Comparator.comparing((Project p) -> p.getTeams().stream()
-                                .map(Team::getDevelopers)
-                                .flatMap(Collection::stream)
-                                .distinct()
-                                .mapToDouble(developer -> developer.getSalary().floatValue() * p.getDurationInMonth())
-                                .sum())
-                        .thenComparing(Project::getId)
-                ).map(Project::getProjectName).orElse(null);
+                .max(Comparator.comparing(project -> project.getTeams().stream()
+                        .flatMap(team -> team.getDevelopers().stream())
+                        .distinct()
+                        .map(developer -> developer.getSalary()
+                                .multiply(BigDecimal.valueOf(project.getDurationInMonth())))
+                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+                ))
+                .map(Project::getProjectName).orElse(null);
     }
 
     /**
@@ -195,13 +193,14 @@ public class StreamTasks {
 
     /**
      * №15
-     * Собрать мапу разработчиков, отсортированных по возрасту в обратном порядке
-     * сгруппированных по грейду
+     * Собрать мапу разработчиков, отсортированных по возрасту в обратном порядке,
+     * сгруппированных по грейду, в виде:
+     * {Грейд1 =[полное имя разраба1, полное имя разраба2 ...], ...}
      *
      * @param projects - список проектов
      * @return - мапу с грейдами и полными именами (имя + фамилия) разработчиков в указанном виде
      */
-    public static Map<Grades, List<Developer>> getDevelopersSortedByAgeGroupingByGrade(List<Project> projects) {
+    public static Map<Grades, List<String>> getDeveloperFullNamesSortedByAgeGroupingByGrade(List<Project> projects) {
         return null;
     }
 
@@ -214,7 +213,7 @@ public class StreamTasks {
      * @param projects - список проектов
      * @return - мапу с названиями скиллов и полными именами (имя + фамилия) разработчиков в указанном виде
      */
-    public static Map<String, List<String>> getDevelopersSortedByLastNameGroupingByGrade(List<Project> projects) {
+    public static Map<Skills, List<String>> getDeveloperFullNamesSortedByLastNameGroupingBySkills(List<Project> projects) {
         return null;
     }
 
