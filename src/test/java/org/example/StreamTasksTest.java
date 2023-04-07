@@ -82,11 +82,11 @@ class StreamTasksTest {
     }
 
     @Test
-    void getDevelopersSortedByAgeGroupingByGrade() {
+    void getDeveloperFullNamesSortedByAgeGroupingByGrade() {
     }
 
     @Test
-    void getDevelopersSortedByLastNameGroupingByGrade() {
+    void getDeveloperFullNamesSortedByLastNameGroupingBySkills() {
     }
 
     @Test
